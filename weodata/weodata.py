@@ -128,7 +128,7 @@ def extract():
     writer.writeheader()
     writer.writerows(values)
 
-    logger.info('Completed data extraction to {}'.format(fp))
+    logger.info('Completed data extraction (^_^)')
 
 
 def load(version=2019,
