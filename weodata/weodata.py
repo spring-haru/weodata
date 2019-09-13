@@ -4,7 +4,7 @@ if not os.getenv('PYTHONIOENCODING', None):
 
 import csv
 import urllib.request
-import logging
+# import logging
 import codecs
 import sys
 import pandas as pd
@@ -12,8 +12,8 @@ import numpy as np
 import shutil
 
 
-logger = logging.getLogger()
-logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger()
+# logging.basicConfig(level=logging.INFO)
 
 # Specifying the locale of the source
 import locale
@@ -28,7 +28,7 @@ def url_generator(version, base_url):
 fp = './archive_weo/imf-weo.tsv'
 
 def download(version, base_url):
-    logger.info('Retrieving source database ...')
+    # logger.info('Retrieving source database ...')
     f=urllib.request.urlopen(url_generator(version,base_url))
     output=f.read().decode('cp1252')
 
