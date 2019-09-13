@@ -1,5 +1,5 @@
 import os
-if not os.getenv('PYTHONIOENCODING', None): # PyInstaller workaround
+if not os.getenv('PYTHONIOENCODING', None):
     os.environ['PYTHONIOENCODING'] = 'utf_8'
 
 import csv
@@ -28,7 +28,7 @@ def url_generator(version, base_url):
 fp = './archive_weo/imf-weo.tsv'
 
 def download(version, base_url):
-    logger.info('Retrieving source database: {} ...'.format(url_generator(version,base_url)))
+    logger.info('Retrieving source database ...')
     f=urllib.request.urlopen(url_generator(version,base_url))
     output=f.read().decode('cp1252')
 
@@ -38,8 +38,6 @@ def download(version, base_url):
 
     with codecs.open(fp, "w", "utf-8") as temp:
         temp.write(output)
-
-    logger.info('Source database downloaded to: {}'.format(fp))
 
 
 def f_open(fn):
@@ -52,7 +50,6 @@ def f_open(fn):
 
 
 def extract():
-    logger.info('Starting extraction of data from: {}'.format(fp))
     reader = csv.DictReader(open(fp, encoding='utf-8'), delimiter='\t')
     indicators = {}
     WEOcountry_names=dict()
@@ -82,8 +79,6 @@ def extract():
                 print(row)
                 break;
 
-        # need to store notes somewhere with an id ...
-        # also need to uniquify the notes ...
         notes = row['Country/Series-specific Notes']
 
         newrow = {
@@ -93,7 +88,6 @@ def extract():
             'Value': None
             }
         for year in years:
-            # if row[year] != 'n/a':
             if row[year] == 'n/a':
                 row[year] = np.nan
             tmprow = dict(newrow)
@@ -107,8 +101,6 @@ def extract():
         # TODO: indicate whether a value is an estimate using
         # 'Estimates Start After'
 
-        # delete 'Estimates Start After'
-
     outfp = 'archive_weo/indicators.csv'
 
     path=os.path.dirname(outfp)
@@ -116,12 +108,10 @@ def extract():
         os.makedirs(path)
 
     writer = csv.writer(f_open(outfp))
-    # indheader = ['id', 'title', 'description', 'units', 'scale']
     indheader = ['id', 'title', 'description']
     writer.writerow(indheader)
     for k in sorted(indicators.keys()):
         writer.writerow( [k] + indicators[k] )
-    logger.info('Number of Indicators included: {}'.format(len(indicators.keys())))
 
     outfp = 'archive_weo/country.csv'
     writer = csv.writer(f_open(outfp))
@@ -129,8 +119,6 @@ def extract():
     writer.writerow(header)
     for k in sorted(WEOcountry_names.keys()):
         writer.writerow( [k] + [WEOcountry_codes[k],WEOcountry_names[k],])
-    logger.info('Number of Countries included: {}'.format(len(WEOcountry_names.keys())))
-
 
     outfp = 'archive_weo/values.csv'
     f = f_open(outfp)
@@ -140,7 +128,7 @@ def extract():
     writer.writeheader()
     writer.writerows(values)
 
-    logger.info('Completed data extraction to archive_weo/ directory')
+    logger.info('Completed data extraction to {}'.format(fp))
 
 
 def load(version=2019,
@@ -196,5 +184,5 @@ def load(version=2019,
     elif (country == False) & (description == False) & (multi_index == False):
         return weo_data
 
-df = load(multi_index=False)
-df.head()
+# df = load(multi_index=False)
+# df.head()
