@@ -53,7 +53,7 @@ def extract():
     reader = csv.DictReader(open(fp, encoding='utf-8'), delimiter='\t')
     indicators = {}
     WEOcountry_names=dict()
-    WEOcountry_codes=dict()
+    # WEOcountry_codes=dict()
     values = []
 
     years = reader.fieldnames[9:-1]
@@ -73,11 +73,11 @@ def extract():
         # just for double check on data integrity and names encoding
         if row['ISO'] not in WEOcountry_names:
             WEOcountry_names[row['ISO']] = row['Country']
-            try:
-                WEOcountry_codes[row['ISO']] = row['WEO Country Code']
-            except:
-                print(row)
-                break;
+            # try:
+            #     WEOcountry_codes[row['ISO']] = row['WEO Country Code']
+            # except:
+            #     print(row)
+            #     break;
 
         notes = row['Country/Series-specific Notes']
 
@@ -120,7 +120,8 @@ def extract():
     header = ['ISO', 'WEO', 'Name']
     writer.writerow(header)
     for k in sorted(WEOcountry_names.keys()):
-        writer.writerow( [k] + [WEOcountry_codes[k],WEOcountry_names[k],])
+        # writer.writerow( [k] + [WEOcountry_codes[k],WEOcountry_names[k],])
+        writer.writerow( [k] + [WEOcountry_names[k],])
 
     outfp = 'archive_weo/values.csv'
     f = f_open(outfp)
@@ -164,8 +165,8 @@ def load(version=2019,
     download(version, base_url)
     extract()
     _df = pd.read_csv('./archive_weo/values.csv')
-    _country = pd.read_csv('./archive_weo/country.csv')
-    _indicators = pd.read_csv('./archive_weo/indicators.csv')#.set_index('id')
+    _country = pd.read_csv('./archive_weo/country.csv').set_index('ISO').rename_axis(index='')
+    _indicators = pd.read_csv('./archive_weo/indicators.csv').set_index('id').rename_axis(index='')
 
     weo_data_multi = _df.set_index(['Country', 'Year', 'Indicator'])['Value'].unstack('Indicator').sort_index(1)
     weo_data_multi.index.names = (None,None)
