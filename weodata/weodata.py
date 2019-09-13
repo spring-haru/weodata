@@ -118,7 +118,7 @@ def extract():
     outfp = 'archive_weo/country.csv'
     writer = csv.writer(f_open(outfp))
     # header = ['ISO', 'WEO', 'Name']
-    header = ['ISO', Name']
+    header = ['ISO', 'Name']
     writer.writerow(header)
     for k in sorted(WEOcountry_names.keys()):
         # writer.writerow( [k] + [WEOcountry_codes[k],WEOcountry_names[k],])
