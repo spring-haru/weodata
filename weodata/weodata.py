@@ -165,7 +165,7 @@ def load(version=2019,
     extract()
     _df = pd.read_csv('./archive_weo/values.csv')
     _country = pd.read_csv('./archive_weo/country.csv')
-    _indicators = pd.read_csv('./archive_weo/indicators.csv').set_index('id')
+    _indicators = pd.read_csv('./archive_weo/indicators.csv')#.set_index('id')
 
     weo_data_multi = _df.set_index(['Country', 'Year', 'Indicator'])['Value'].unstack('Indicator').sort_index(1)
     weo_data_multi.index.names = (None,None)
