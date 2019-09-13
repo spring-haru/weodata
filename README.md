@@ -42,4 +42,4 @@ pip install .
 <br>
 
 **Note:**
-Part of this module is built on [datasets/imf-weio](https://github.com/datasets/imf-weo).
+Part of this module is built on [datasets/imf-wei](https://github.com/datasets/imf-weo).

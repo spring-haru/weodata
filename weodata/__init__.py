@@ -2,7 +2,7 @@
 Github page: https://github.com/spring-haru/maddata
 """
 
-from .maddata import *
+from .weodata import *
 
 __all__ = ['load']
 
