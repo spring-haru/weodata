@@ -90,6 +90,8 @@ def extract():
         for year in years:
             if row[year] == 'n/a':
                 row[year] = np.nan
+            if row[year] == '--':
+                row[year] = np.nan
             tmprow = dict(newrow)
             try:
                 tmprow['Value'] = locale.atof (row[year] )          # Converting "1,033.591" to 1033.591
@@ -128,7 +130,7 @@ def extract():
     writer.writeheader()
     writer.writerows(values)
 
-    logger.info('Completed data extraction (^_^)')
+    # logger.info('Completed data extraction (^_^)')
 
 
 def load(version=2019,
