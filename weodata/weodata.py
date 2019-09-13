@@ -1,5 +1,3 @@
-%reset
-# %%
 import os
 if not os.getenv('PYTHONIOENCODING', None): # PyInstaller workaround
     os.environ['PYTHONIOENCODING'] = 'utf_8'
